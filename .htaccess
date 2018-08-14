@@ -1,0 +1,4 @@
+# It actives rewrite engine module
+RewriteEngine On
+
+# It redirects all requests to main.php file
