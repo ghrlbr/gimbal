@@ -2,3 +2,4 @@
 RewriteEngine On
 
 # It redirects all requests to main.php file
+RewriteRule ^(.*)$ main.php [L]
