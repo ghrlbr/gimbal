@@ -1,5 +1,7 @@
 <?php
 
+//error_reporting(0);
+
 
 # Global Variables
 $uri = null;		// It storages the request URI

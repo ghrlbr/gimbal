@@ -25,7 +25,7 @@ final class Views
 				}
 				else		// Case not, we show just a simple text
 				{
-					echo 'Not found';
+					echo 'NF404X165317102018';
 					
 					return;
 				}
