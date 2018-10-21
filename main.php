@@ -15,6 +15,12 @@ if(isset($_SERVER['REQUEST_URI']))
 		$explodedUri = explode('/', $requestedUri);	// Divide a URI a cada "/"
 		$filteredUri = array_filter($explodedUri);	// Remove os elementos vazios
 		$reindexedUri = array_values($filteredUri);	// Re-indexa os elementos
+		
+		for($i = 0; $i < count($reindexedUri); $i++)
+		{
+			$reindexedUri[$i] = urldecode($reindexedUri[$i]);
+		}
+		
 		$uri = $reindexedUri;	// Armazena os dados passados pela URI em forma de array
 	}
 	else
