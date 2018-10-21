@@ -1,38 +1,71 @@
 <?php
 
-//error_reporting(0);
-
-
-# Global Variables
-$uri = null;		// It storages the request URI
-$language = null;		// It storages the browser language
-
-
-# It process the request URI
-$requestedUri = $_SERVER['REQUEST_URI'];		// It returns the requested URI
-$explodedUri = explode('/', $requestedUri);		// It explodes the requested URI in each '/'
-$filteredUri = array_filter($explodedUri);		// It removes the empty elements from explodedUri variable
-$reindexedUri = array_values($filteredUri);		// It re-indexes the elements of filteredUri variable
-$uri = $reindexedUri;		// It re-allocates the reindexedUri to other variable
-
-
-# It process the browser language
-$browserPreferredLanguages = $_SERVER['HTTP_ACCEPT_LANGUAGE'];		// It returns the browser preferred language
-$browserPreferredLanguage = substr($browserPreferredLanguages, 0, strpos($browserPreferredLanguages, ','));
-$language = $browserPreferredLanguage;
-
-
-###################### IMPORTANT ACTIONS #####################################################################
-##																											##
-## FAZER A VERIFICAÇÃO DOS DADOS $_SERVER['REQUEST_URI'] E $_SERVER['HTTP_ACCEPT_LANGUAGE'] UTILIZANDO		##
-## EXPRESSÕES REGULARES ANTES DE UTILIZA-LOS.																##
-##																											##
-## NÍVEL DE NECESSIDADE: URGENTE.																			##
-##																											##
-###################### IMPORTANT ACTIONS #####################################################################
+// Essas são as variáveis globais, elas armazenarão valores que podem ser usados em toda aplicação
+$uri = null;	// Essa variável armazena os dados passados pela URI em forma de array
+$language = null;	// Essa variável armazena o idioma preferido do navegador de acesso em forma de string
 
 
 
+// Essa bloco de código define o valor da variável global $uri
+if(isset($_SERVER['REQUEST_URI']))
+{
+	if(empty($_SERVER['REQUEST_URI']) == false)
+	{
+		$requestedUri = $_SERVER['REQUEST_URI'];	// Retorna a URI requisitada
+		$explodedUri = explode('/', $requestedUri);	// Divide a URI a cada "/"
+		$filteredUri = array_filter($explodedUri);	// Remove os elementos vazios
+		$reindexedUri = array_values($filteredUri);	// Re-indexa os elementos
+		$uri = $reindexedUri;	// Armazena os dados passados pela URI em forma de array
+	}
+	else
+	{
+		$uri = array('v', 'index');
+		
+		WriteInConsole('A requisição enviada possui uma URI nula. A página index será retornada.');
+	}
+}
+else
+{
+	$uri = array('v', 'index');
+	
+	WriteInConsole('A requisição não definiu uma URI. A página index será retornada.');
+}
+
+
+
+// Essa bloco de código define o valor da variável global $uri
+if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+{
+	if(empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) == false)
+	{
+		$preferredLanguages = $_SERVER['HTTP_ACCEPT_LANGUAGE'];	// Retorna os idiomas preferido do navegador em forma de string
+		$preferredLanguage = substr($preferredLanguages, 0, strpos($preferredLanguages, ','));	// Retorna o idioma preferido do navegador em forma de string
+		$preferredLanguage = strtolower($preferredLanguage);
+		
+		if(preg_match('/^([a-z]{1,3}-[A-Z]{1,3}|[a-z]{1,3})$/i', $preferredLanguage))
+		{
+			$language = $preferredLanguage;	// Armazena o idioma preferido do navegador em forma de string
+		}
+		else
+		{
+			$language = 'default';
+			
+			WriteInConsole('O formato do idioma preferido pelo navegador não corresponde a um padrão já estabelecido. O idioma padrão será utilizado.', 'WARN');
+		}
+	}
+	else
+	{
+		$language = 'default';
+		
+		WriteInConsole('A requisição definiu um valor nulo para o idioma preferido do navegador. O idioma padrão será utilizado.', 'WARN');
+	}
+}
+else
+{
+	$language = 'default';
+	
+	WriteInConsole('A requisição enviada não definiu nenhum idioma preferido pelo navegador. O idioma padrão será utilizado', 'WARN');
+}
 
 
 
@@ -82,6 +115,36 @@ else		// Caso não, cria-se os parâmetros para funcionamento padrão
 	require_once 'system/controllers/views.php';		// Request necessary views class
 			
 	$viewsInstance = new Views();
+}
+
+function WriteInConsole(string $string, $type = 'LOG')
+{
+	switch(strtoupper($type))
+	{
+		case 'ERROR':
+		
+			echo '<script>console.error("' . $string . '");</script>';
+		
+			break;
+			
+		case 'WARN':
+		
+			echo '<script>console.warn("' . $string . '");</script>';
+		
+			break;
+			
+		case 'LOG':
+		
+			echo '<script>console.log("' . $string . '");</script>';
+		
+			break;
+			
+		default:
+		
+			echo '<script>console.log("' . $string . '");</script>';
+		
+			break;
+	}
 }
 
 ?>
