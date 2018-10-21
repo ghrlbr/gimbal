@@ -19,6 +19,7 @@ if(isset($_SERVER['REQUEST_URI']))
 		for($i = 0; $i < count($reindexedUri); $i++)
 		{
 			$reindexedUri[$i] = urldecode($reindexedUri[$i]);
+			
 		}
 		
 		$uri = $reindexedUri;	// Armazena os dados passados pela URI em forma de array
