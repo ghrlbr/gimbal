@@ -1,5 +1,9 @@
 <?php
 
+require_once 'system/helpers/globalization.php';
+
+
+
 // Essas são as variáveis globais, elas armazenarão valores que podem ser usados em toda aplicação
 $uri = null;	// Essa variável armazena os dados passados pela URI em forma de array
 $language = null;	// Essa variável armazena o idioma preferido do navegador de acesso em forma de string
@@ -41,37 +45,17 @@ else
 
 
 // Essa bloco de código define o valor da variável global $uri
-if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+$globalization = new Globalization();
+
+try
 {
-	if(empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) == false)
-	{
-		$preferredLanguages = $_SERVER['HTTP_ACCEPT_LANGUAGE'];	// Retorna os idiomas preferido do navegador em forma de string
-		$preferredLanguage = substr($preferredLanguages, 0, strpos($preferredLanguages, ','));	// Retorna o idioma preferido do navegador em forma de string
-		$preferredLanguage = strtolower($preferredLanguage);
-		
-		if(preg_match('/^([a-z]{1,3}-[A-Z]{1,3}|[a-z]{1,3})$/i', $preferredLanguage))
-		{
-			$language = $preferredLanguage;	// Armazena o idioma preferido do navegador em forma de string
-		}
-		else
-		{
-			$language = 'default';
-			
-			WriteInConsole('O formato do idioma preferido pelo navegador não corresponde a um padrão já estabelecido. O idioma padrão será utilizado.', 'WARN');
-		}
-	}
-	else
-	{
-		$language = 'default';
-		
-		WriteInConsole('A requisição definiu um valor nulo para o idioma preferido do navegador. O idioma padrão será utilizado.', 'WARN');
-	}
+	$globalization -> DetectLanguages();
+	$languages = $globalization -> GetLanguages();
+	$language = $language[0]['identifier'];
 }
-else
+catch(Exception $e)
 {
 	$language = 'default';
-	
-	WriteInConsole('A requisição enviada não definiu nenhum idioma preferido pelo navegador. O idioma padrão será utilizado', 'WARN');
 }
 
 
