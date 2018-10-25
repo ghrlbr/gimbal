@@ -1,5 +1,13 @@
-# It actives rewrite engine module
+#	Name: Gimbal
+#	Description: Starts the framework, redirecting all requets to a main file
+#	Author: Gabriel Henrique
+#	Username: @ghrlbr
+#	Date: August/2018
+#	License: BSD
+
+
+#	Ativa o módulo de reescrita de URL do Apache
 RewriteEngine On
 
-# It redirects all requests to main.php file
+# Redireciona todas as requisições para o arquivo "main.php"
 RewriteRule ^(.*)$ main.php [L]
