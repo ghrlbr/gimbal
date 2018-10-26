@@ -1,13 +1,74 @@
 <?php
 
-require_once 'system/helpers/globalization.php';
+#	Name: Gimbal
+#	Description: It manages all requests made by clients
+#	Author: Gabriel Henrique
+#	Username: @ghrlbr
+#	Date: August/2018
+#	License: BSD
 
 
+// Requere todas as bibliotecas necessárias
+require_once 'system/libraries/globalization.php';	// Requere a biblioteca Globalization
+require_once 'system/libraries/url.php';		// Requere a biblioteca Url
+require_once 'system/libraries/debug.php';	// Requere a biblioteca Debug
 
-// Essas são as variáveis globais, elas armazenarão valores que podem ser usados em toda aplicação
-$uri = null;	// Essa variável armazena os dados passados pela URI em forma de array
-$language = null;	// Essa variável armazena o idioma preferido do navegador de acesso em forma de string
 
+// Instacia todas as bibliotecas requeridas
+$globalization = new Globalization();
+$url = new Url();
+$debug = new Debug();
+
+
+// Define o idioma a ser usado pelo cliente
+try
+{
+	$globalization -> DetectAcceptLanguages();
+}
+catch(Exception $exception)
+{
+	switch($exception -> getCode())
+	{
+		case Globalization::HTTP_THIRD_ACCEPT_LANGUAGE_PARSE_ERROR:
+		
+			$debug -> WriteInConsole('WARN', 'The client\'s request contains the accept languages, but we can not parse the third one accept. The default will be used if needed.');
+		
+			break;
+			
+		case Globalization::HTTP_SECOND_ACCEPT_LANGUAGE_PARSE_ERROR:
+		
+			$debug -> WriteInConsole('WARN', 'The client\'s request contains the accept languages, but we can not parse the second one accept. The default will be used if needed.');
+		
+			break;
+			
+		case Globalization::HTTP_FIRST_ACCEPT_LANGUAGE_PARSE_ERROR:
+		
+			$debug -> WriteInConsole('WARN', 'The client\'s request contains the accept languages, but we can not parse the first one accept. The default will be used if needed.');
+		
+			break;
+			
+		case Globalization::HTTP_ACCEPT_LANGUAGE_WITHOUT_VALUE:
+		
+			$debug -> WriteInConsole('WARN', 'The client\'s request contains the accept languages, but it has no value. The default will be used.');
+		
+			break;
+			
+		case Globalization::HTTP_ACCEPT_LANGUAGE_NOT_SET:
+		
+			$debug -> WriteInConsole('WARN', 'The client\'s request does not contains the accept languages. The default will be used.');
+		
+			break;
+			
+		default:
+		
+			$debug -> WriteInConsole('WARN', 'It occurred an undefined error when try to detect the accept languages. The default will be used.');
+			
+			break;
+	}
+}
+
+
+// -------------------------------- CÓDIGO REFATORADO ATÉ AQUI
 
 
 // Essa bloco de código define o valor da variável global $uri
@@ -43,20 +104,12 @@ else
 }
 
 
-
 // Essa bloco de código define o valor da variável global $uri
-$globalization = new Globalization();
+$language = $globalization -> GetFirstAcceptLanguage();
 
-try
-{
-	$globalization -> DetectLanguages();
-	$languages = $globalization -> GetLanguages();
-	$language = $language[0]['identifier'];
-}
-catch(Exception $e)
-{
-	$language = 'default';
-}
+echo $language;
+
+exit;
 
 
 
