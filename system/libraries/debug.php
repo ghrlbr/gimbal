@@ -54,7 +54,7 @@ final class Debug
 		return true;
 	}
 	public function WriteInConsole($status, $message)
-	{
+	{		
 		switch(strtoupper($status))
 		{
 			case 'ERROR':
@@ -67,15 +67,13 @@ final class Debug
 				
 			case 'WARN':
 			
-				echo ' -- SWITCHED TO WARN -- ';
-			
 				echo '<script type="text/javascript">';
 				echo 'console.warn("' . $message . '");';
 				echo '</script>';
 				
+				break;
+				
 			case 'LOG':
-			
-				echo ' -- SWITCHED TO LOG -- ';
 				
 				echo '<script type="text/javascript">';
 				echo 'console.log("' . $message . '");';

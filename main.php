@@ -49,11 +49,8 @@ catch(Exception $exception)
 			
 		case Globalization::HTTP_ACCEPT_LANGUAGE_WITHOUT_VALUE:
 			
-			echo '-- INICIO DO TESTE --';
-			
 			$debug -> WriteInConsole('WARN', 'The client\'s request contains the accept languages, but it has no value. The default will be used.');
-			echo '-- FIM DO TESTE --';
-			exit;
+			
 			break;
 			
 		case Globalization::HTTP_ACCEPT_LANGUAGE_NOT_SET:
