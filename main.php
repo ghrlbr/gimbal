@@ -107,11 +107,6 @@ else
 // Essa bloco de código define o valor da variável global $uri
 $language = $globalization -> GetFirstAcceptLanguage();
 
-echo $language;
-
-exit;
-
-
 
 if(isset($uri[0]))		// Verifica se o parâmetro principal foi definido
 {
