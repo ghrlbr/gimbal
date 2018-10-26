@@ -38,7 +38,7 @@ catch(Exception $exception)
 		case Globalization::HTTP_SECOND_ACCEPT_LANGUAGE_PARSE_ERROR:
 		
 			$debug -> WriteInConsole('WARN', 'The client\'s request contains the accept languages, but we can not parse the second one accept. The default will be used if needed.');
-		
+			
 			break;
 			
 		case Globalization::HTTP_FIRST_ACCEPT_LANGUAGE_PARSE_ERROR:
@@ -48,9 +48,12 @@ catch(Exception $exception)
 			break;
 			
 		case Globalization::HTTP_ACCEPT_LANGUAGE_WITHOUT_VALUE:
-		
+			
+			echo '-- INICIO DO TESTE --';
+			
 			$debug -> WriteInConsole('WARN', 'The client\'s request contains the accept languages, but it has no value. The default will be used.');
-		
+			echo '-- FIM DO TESTE --';
+			exit;
 			break;
 			
 		case Globalization::HTTP_ACCEPT_LANGUAGE_NOT_SET:
