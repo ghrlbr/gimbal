@@ -45,26 +45,7 @@ final class Files
 	}
 	private final function Download(string $filename)
 	{
-		$originalFilename = $filename;
-		$sanitizedFilename = pathinfo($originalFilename);
-		
-		$filePath = "application/files/{$sanitizedFilename['basename']}";
-	
-		header('Content-Type: application/octet-stream');
-		header("Accept-Ranges: bytes");
-		
-		set_time_limit(0);
-		
-		$file = fopen($filePath, 'r');
-		
-		while(!feof($file))
-		{
-			print(fread($file, 1024 * 8));
-			ob_flush();
-			flush();
-		}
-		
-		return;
+		return false;
 	}
 }
 

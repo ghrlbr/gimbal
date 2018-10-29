@@ -9,5 +9,5 @@
 #	Ativa o módulo de reescrita de URL do Apache
 RewriteEngine On
 
-# Redireciona todas as requisições para o arquivo "main.php"
-RewriteRule ^(.*)$ main.php [L]
+# Redireciona todas as requisições para o arquivo "gimbal/gimbal.php"
+RewriteRule ^(.*)$ gimbal/gimbal.php [L]

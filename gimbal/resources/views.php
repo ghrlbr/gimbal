@@ -2,8 +2,26 @@
 
 final class Views
 {
+	public function Show(string $name)
+	{
+		throw new Exception('');
+	}
+	
+	
+	/*
+	
+	
+	
 	public final function Views()
 	{
+		
+		
+		
+		
+		
+		
+		return false;
+		
 		global $uri;		// It storages the uri
 		global $language;		// It storages the user's browser language
 		
@@ -11,6 +29,7 @@ final class Views
 		{
 			if($this -> Exists($uri[1]))		// Before to show a view, we need check if it exists
 			{
+				http_response_code(304);
 				$this -> Show($uri[1]);
 				
 				return;
@@ -126,7 +145,7 @@ final class Views
 		$mountedViewContent = preg_replace('/\n\t/', '', $mountedViewContent);
 		
 		return $mountedViewContent;
-	}	
+	}	*/
 }
 
 ?>
