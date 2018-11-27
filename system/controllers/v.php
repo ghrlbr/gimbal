@@ -1,10 +1,61 @@
 <?php
 
 final class Views
-{
+{	
 	public function Show(string $name)
 	{
-		throw new Exception('');
+		global $globalization;
+		
+		if(!empty($globalization -> GetFirstAcceptLanguage(Globalization::LANGUAGE_IDENTIFIER)))
+		{
+			if(file_exists("../application/structures/{$globalization -> GetFirstAcceptLanguage(Globalization::LANGUAGE_IDENTIFIER)}/$name.html"))
+			{
+				require_once "../application/structures/{$globalization -> GetFirstAcceptLanguage(Globalization::LANGUAGE_IDENTIFIER)}/$name.html";
+			}
+			else
+			{
+				if(!empty($globalization -> GetSecondAcceptLanguage(Globalization::LANGUAGE_IDENTIFIER)))
+				{
+					if(file_exists("../application/structures/{$globalization -> GetSecondAcceptLanguage(Globalization::LANGUAGE_IDENTIFIER)}/$name.html"))
+					{
+						require_once "../application/structures/{$globalization -> GetSecondAcceptLanguage(Globalization::LANGUAGE_IDENTIFIER)}/$name.html";
+					}
+					else
+					{
+						if(file_exists("../application/structures/default/$name.html"))
+						{
+							require_once "../application/structures/default/$name.html";
+						}
+						else
+						{
+							echo 'not found '."../application/structures/default/$name.html";
+						}
+					}
+				}
+				else
+				{
+					if(file_exists("../application/structures/default/$name.html"))
+					{
+						require_once "../application/structures/default/$name.html";
+					}
+					else
+					{
+						echo 'not found '."../application/structures/default/$name.html";
+					}
+				}
+			}
+		}
+		else
+		{
+			if(file_exists("../application/structures/default/$name.html"))
+			{
+				require_once "../application/structures/default/$name.html";
+			}
+			else
+			{
+				echo 'not found '."../application/structures/default/$name.html";
+			}
+		}
 	}
 	
 	
@@ -13,15 +64,7 @@ final class Views
 	
 	
 	public final function Views()
-	{
-		
-		
-		
-		
-		
-		
-		return false;
-		
+	{	
 		global $uri;		// It storages the uri
 		global $language;		// It storages the user's browser language
 		

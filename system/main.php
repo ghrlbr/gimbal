@@ -14,7 +14,7 @@ require_once 'libraries/uri.php';		// Requere a biblioteca Uri
 require_once 'libraries/debug.php';	// Requere a biblioteca Debug
 
 // Requere todos os recursos necessários
-require_once 'resources/views.php';	// Requere o controlador Views
+require_once 'controllers/v.php';	// Requere o controlador Views
 
 
 // Instacia todas as bibliotecas requeridas
@@ -110,6 +110,51 @@ catch(Exception $exception)
 			$debug -> WriteInConsole('ERROR', 'It occurred an undefined error when try to parse the request URL.');
 		
 			break;
+	}
+}
+
+
+if(!empty($uri -> GetParameterByIndex(0)))
+{
+	if(file_exists("controllers/{$uri -> GetParameterByIndex(0)}.php"))
+	{
+		echo 'Encontrado o controlador';
+	}
+	else
+	{
+		try
+		{
+			$views -> Show($uri -> GetParameterByIndex(0));
+		}
+		catch(Exception $exception)
+		{
+			switch($exception -> getCode())
+			{
+				default:
+				
+					$debug -> WriteInConsole('WARN', 'It occurred an undefined error when try to detect the accept languages. The default will be used.');
+					
+					break;
+			}
+		}
+	}
+}
+else
+{
+	try
+	{
+		$views -> Show('index');
+	}
+	catch(Exception $exception)
+	{
+		switch($exception -> getCode())
+		{
+			default:
+			
+				$debug -> WriteInConsole('WARN', 'It occurred an undefined error when try to detect the accept languages. The default will be used.');
+				
+				break;
+		}
 	}
 }
 

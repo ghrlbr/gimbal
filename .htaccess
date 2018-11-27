@@ -10,4 +10,4 @@
 RewriteEngine On
 
 # Redireciona todas as requisições para o arquivo "gimbal/gimbal.php"
-RewriteRule ^(.*)$ gimbal/gimbal.php [L]
+RewriteRule ^(.*)$ system/main.php [L]
