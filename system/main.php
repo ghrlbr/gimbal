@@ -1,5 +1,6 @@
 <?php
 
+
 #	Name: Gimbal
 #	Description: It manages all requests made by clients
 #	Author: Gabriel Henrique
@@ -118,7 +119,17 @@ if(!empty($uri -> GetParameterByIndex(0)))
 {
 	if(file_exists("controllers/{$uri -> GetParameterByIndex(0)}.php"))
 	{
-		echo 'Encontrado o controlador';
+		require_once "controllers/{$uri -> GetParameterByIndex(0)}.php";
+		
+		if(class_exists($uri -> GetParameterByIndex(0)))
+		{
+			$controllerClassName = $uri -> GetParameterByIndex(0);
+			$controllerInstance = new $controllerClassName();
+		}
+		else
+		{
+			$debug -> WriteInConsole('ERROR', 'It occurred an error when try to load requested resource.');
+		}
 	}
 	else
 	{
